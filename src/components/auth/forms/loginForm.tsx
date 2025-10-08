@@ -53,7 +53,7 @@ const LoginForm = () => {
     <CardWrapper
       headerLabel="Create an account"
       title="Register"
-      backButtonHref="/register"
+      backButtonHref="/auth/register"
       backButtonLabel="New here? Register"
       showSocial
     >

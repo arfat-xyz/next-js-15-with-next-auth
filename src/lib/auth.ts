@@ -4,6 +4,10 @@ import { db } from "@/lib/db";
 import authConfig from "@/lib/auth.config";
 import { getUserById } from "@/data/user";
 import { getAccountByUserId } from "@/data/account";
+import { generateVerificationToken } from "@/lib/token";
+import { sendEmailViaNodemailer } from "@/lib/mail";
+import { generateVerificationEmail } from "@/lib/email-template-generator";
+import { env } from "@/lib/envs";
 
 export const {
   auth,
@@ -21,8 +25,19 @@ export const {
       }
       if (!user.id) return false;
       const existingUser = await getUserById(user.id);
-
+      if (!existingUser?.email) return false;
       if (!existingUser?.emailVerified) {
+        // Generate Verification Token
+        const verificationToken = await generateVerificationToken(
+          existingUser?.email
+        );
+        sendEmailViaNodemailer({
+          template: generateVerificationEmail(
+            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+          ),
+          subject: "Verify your email",
+          to: verificationToken?.email,
+        });
         return false;
       }
 

@@ -4,6 +4,10 @@ import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { RegisterSchema } from "@/zod-schemas/auth";
 import { db } from "@/lib/db";
+import { generateVerificationToken } from "@/lib/token";
+import { sendEmailViaNodemailer } from "@/lib/mail";
+import { env } from "@/lib/envs";
+import { generateVerificationEmail } from "@/lib/email-template-generator";
 // import { generateVerificationToken } from "@/lib/token";
 // import { sendVerificationEmail } from "@/lib/mail";
 
@@ -37,13 +41,24 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
 
     // If the user exists, return an error
     if (userExists) {
+      if (!userExists?.emailVerified) {
+        const verificationToken = await generateVerificationToken(email);
+        sendEmailViaNodemailer({
+          template: generateVerificationEmail(
+            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+          ),
+          subject: "Verify your email",
+          to: email,
+        });
+        return { success: "Email Verification was sent" };
+      }
       return { error: "Email already is in use. Please try another one." };
     }
 
     const lowerCaseEmail = email.toLowerCase();
 
     // Create the user
-    const user = await db.user.create({
+    await db.user.create({
       data: {
         email: lowerCaseEmail,
         name,
@@ -52,9 +67,14 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     });
 
     // Generate Verification Token
-    // const verificationToken = await generateVerificationToken(email);
-
-    // await sendVerificationEmail(lowerCaseEmail, verificationToken.token);
+    const verificationToken = await generateVerificationToken(email);
+    sendEmailViaNodemailer({
+      template: generateVerificationEmail(
+        `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+      ),
+      subject: "Verify your email",
+      to: email,
+    });
 
     return { success: "Email Verification was sent" };
   } catch (error) {
