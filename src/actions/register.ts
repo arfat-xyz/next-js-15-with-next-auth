@@ -45,7 +45,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
         const verificationToken = await generateVerificationToken(email);
         sendEmailViaNodemailer({
           template: generateVerificationEmail(
-            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
           ),
           subject: "Verify your email",
           to: email,
@@ -70,7 +70,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     const verificationToken = await generateVerificationToken(email);
     sendEmailViaNodemailer({
       template: generateVerificationEmail(
-        `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+        `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
       ),
       subject: "Verify your email",
       to: email,

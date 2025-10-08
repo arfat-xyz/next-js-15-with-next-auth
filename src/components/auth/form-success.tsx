@@ -4,8 +4,8 @@ import { CheckCheckIcon } from "lucide-react";
 export const FormSuccess = ({ message }: IFormSuccessProps) => {
   if (!message) return null;
   return (
-    <div className="flex space-x-4 items-center p-2 rounded-lg text-emerald-500 bg-emerald-500/30">
-      <CheckCheckIcon className="w-4 h-4 " />
+    <div className="flex items-center space-x-4 rounded-lg bg-emerald-500/30 p-2 text-emerald-500">
+      <CheckCheckIcon className="h-4 w-4" />
       <p>{message}</p>
     </div>
   );

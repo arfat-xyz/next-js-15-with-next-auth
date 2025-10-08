@@ -16,10 +16,9 @@ const CardWrapper = ({
   backButtonLabel,
   backButtonHref,
   title,
-  showSocial,
 }: ICardWrapperProps) => {
   return (
-    <Card className="xl:w-1/4 md:w-1/2 shadow-md">
+    <Card className="shadow-md md:w-1/2 xl:w-1/4">
       <CardHeader>
         <AuthHeader label={headerLabel} title={title} />
       </CardHeader>

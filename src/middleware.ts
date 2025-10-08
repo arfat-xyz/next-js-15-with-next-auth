@@ -8,14 +8,14 @@ const { auth } = NextAuth(authConfig);
 const authRoutes = ["/auth/login", "/auth/register"];
 const privateRoutes = ["/dashboard"];
 
-export default auth(async (req) => {
+export default auth(async req => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith("/api/auth");
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isPrivateRoute = privateRoutes.some((route) =>
-    nextUrl.pathname.startsWith(route)
+  const isPrivateRoute = privateRoutes.some(route =>
+    nextUrl.pathname.startsWith(route),
   );
 
   // Allow API auth routes (login, register, etc.)

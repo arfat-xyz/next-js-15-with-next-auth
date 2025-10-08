@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/form";
 import CardWrapper from "../card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema, RegisterSchema } from "@/zod-schemas/auth";
+import { LoginSchema } from "@/zod-schemas/auth";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ const LoginForm = () => {
 
   const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     setLoading(true);
-    login(data).then((res) => {
+    login(data).then(res => {
       if (res.error) {
         setError(res.error);
         setLoading(false);

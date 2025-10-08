@@ -9,13 +9,13 @@ import { googleAuthenticate } from "@/actions/google-login";
 const GoogleLogin = () => {
   const [errorMsgGoogle, dispatchGoogle] = useActionState(
     googleAuthenticate,
-    undefined
+    undefined,
   ); //googleAuthenticate hook
   return (
-    <form className="flex mt-4" action={dispatchGoogle}>
+    <form className="mt-4 flex" action={dispatchGoogle}>
       <Button
         variant={"outline"}
-        className="flex flex-row items-center gap-3 w-full"
+        className="flex w-full flex-row items-center gap-3"
       >
         <BsGoogle />
         Google Sign In

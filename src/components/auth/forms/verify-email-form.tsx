@@ -24,7 +24,7 @@ const VerifyEmailForm = () => {
     }
 
     newVerification(token)
-      .then((data) => {
+      .then(data => {
         if (data.success) {
           setSuccess(data.success);
         }
@@ -32,7 +32,7 @@ const VerifyEmailForm = () => {
           setError(data.error);
         }
       })
-      .catch((error) => {
+      .catch(error => {
         console.error(error);
         setError("An unexpected error occurred");
       });
@@ -49,7 +49,7 @@ const VerifyEmailForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Back to login"
     >
-      <div className="flex items-center w-full justify-center">
+      <div className="flex w-full items-center justify-center">
         {!success && !error && <p>Loading</p>}
         <FormSuccess message={success} />
         {!success && <FormError message={error} />}

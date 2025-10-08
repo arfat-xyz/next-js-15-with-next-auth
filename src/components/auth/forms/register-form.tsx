@@ -38,7 +38,7 @@ const RegisterForm = () => {
 
   const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
     setLoading(true);
-    register(data).then((res) => {
+    register(data).then(res => {
       if (res.error) {
         setError(res.error);
         setLoading(false);

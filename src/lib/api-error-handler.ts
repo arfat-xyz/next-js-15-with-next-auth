@@ -13,7 +13,7 @@ export function routeErrorHandler(error: unknown) {
   if (error instanceof ZodError) {
     // If the error is a Zod validation error
     // Extract and format each validation error message
-    const validationErrors = error.errors.map((err) => err.message).join(", ");
+    const validationErrors = error.errors.map(err => err.message).join(", ");
     return formatErrorResponse(validationErrors, 422); // Return a 422 Unprocessable Entity response
   } else if (error instanceof Error) {
     // If the error is a standard JavaScript error
@@ -26,7 +26,7 @@ export function routeErrorHandler(error: unknown) {
     // If the error is of an unknown type
     return formatErrorResponse(
       "Internal server error. Please try again later",
-      500
+      500,
     ); // Return a generic 500 error response
   }
 }

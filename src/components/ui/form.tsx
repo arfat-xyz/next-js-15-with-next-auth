@@ -21,18 +21,18 @@ const Form = FormProvider;
 
 type FormFieldContextValue<
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 > = {
   name: TName;
 };
 
 const FormFieldContext = React.createContext<FormFieldContextValue>(
-  {} as FormFieldContextValue
+  {} as FormFieldContextValue,
 );
 
 const FormField = <
   TFieldValues extends FieldValues = FieldValues,
-  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
 }: ControllerProps<TFieldValues, TName>) => {
@@ -71,7 +71,7 @@ type FormItemContextValue = {
 };
 
 const FormItemContext = React.createContext<FormItemContextValue>(
-  {} as FormItemContextValue
+  {} as FormItemContextValue,
 );
 
 function FormItem({ className, ...props }: React.ComponentProps<"div">) {
@@ -121,19 +121,24 @@ function FormControl({
   if (isPasswordField && React.isValidElement(children)) {
     return (
       <div className="relative">
-        {React.cloneElement(children as React.ReactElement<any>, {
-          id: formItemId,
-          "aria-describedby": !error
-            ? `${formDescriptionId}`
-            : `${formDescriptionId} ${formMessageId}`,
-          "aria-invalid": !!error,
-          type: showPassword ? "text" : "password",
-          ...props,
-        })}
+        {React.cloneElement(
+          children as React.ReactElement<
+            React.InputHTMLAttributes<HTMLInputElement>
+          >,
+          {
+            id: formItemId,
+            "aria-describedby": !error
+              ? `${formDescriptionId}`
+              : `${formDescriptionId} ${formMessageId}`,
+            "aria-invalid": !!error,
+            type: showPassword ? "text" : "password",
+            ...props,
+          },
+        )}
         <button
           type="button"
-          onClick={() => setShowPassword((prev) => !prev)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          onClick={() => setShowPassword(prev => !prev)}
+          className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
         >
           {showPassword ? (
             <EyeOff className="h-4 w-4" />

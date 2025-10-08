@@ -63,11 +63,11 @@ export const {
 
       if (!existingUser?.emailVerified) {
         const verificationToken = await generateVerificationToken(
-          existingUser.email
+          existingUser.email,
         );
         sendEmailViaNodemailer({
           template: generateVerificationEmail(
-            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`
+            `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
           ),
           subject: "Verify your email",
           to: verificationToken.email,

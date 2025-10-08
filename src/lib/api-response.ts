@@ -19,7 +19,7 @@ type ApiResponse<T> = {
 export function formatResponse<T>(
   data: T,
   message = "Operation completed successfully",
-  status = 200
+  status = 200,
 ) {
   return NextResponse.json<ApiResponse<T>>(
     {
@@ -27,7 +27,7 @@ export function formatResponse<T>(
       message, // Success message
       data, // Response data payload
     },
-    { status }
+    { status },
   );
 }
 
@@ -41,7 +41,7 @@ export function formatResponse<T>(
  */
 export function formatErrorResponse(
   message = "An error occurred",
-  status = 500
+  status = 500,
 ) {
   return NextResponse.json<ApiResponse<null>>(
     {
@@ -49,7 +49,7 @@ export function formatErrorResponse(
       message, // Error message
       data: null, // No data is provided in case of error
     },
-    { status }
+    { status },
   );
 }
 

@@ -22,6 +22,7 @@ export const getUserByEmail = async (email: string) => {
 
     return user;
   } catch (error) {
+    console.log("Error from Get user by email: ", error);
     return null;
   }
 };
