@@ -11,34 +11,32 @@ import {
 } from "@/components/ui/form";
 import CardWrapper from "../card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "@/zod-schemas/auth";
+import { LoginSchema, RegisterSchema } from "@/zod-schemas/auth";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { register } from "@/actions/register";
 import { FormSuccess } from "../form-success";
 import { FormError } from "../form-error";
 import GoogleLogin from "../google-login";
+import { login } from "@/actions/login";
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const form = useForm<z.infer<typeof RegisterSchema>>({
-    resolver: zodResolver(RegisterSchema),
+  const form = useForm<z.infer<typeof LoginSchema>>({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "",
-      name: "",
       password: "",
-      passwordConfirmation: "",
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
+  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
     setLoading(true);
-    register(data).then((res) => {
+    login(data).then((res) => {
       if (res.error) {
         setError(res.error);
         setLoading(false);
@@ -55,8 +53,8 @@ const RegisterForm = () => {
     <CardWrapper
       headerLabel="Create an account"
       title="Register"
-      backButtonHref="/login"
-      backButtonLabel="Already have an account"
+      backButtonHref="/register"
+      backButtonLabel="New here? Register"
       showSocial
     >
       <Form {...form}>
@@ -79,19 +77,7 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="John Doe" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+
             <FormField
               control={form.control}
               name="password"
@@ -105,24 +91,11 @@ const RegisterForm = () => {
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="passwordConfirmation"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Confirm Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
           <FormSuccess message={success} />
           <FormError message={error} />
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Loading..." : "Register"}
+            {loading ? "Loading..." : "Login"}
           </Button>
         </form>
       </Form>
@@ -131,4 +104,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;
