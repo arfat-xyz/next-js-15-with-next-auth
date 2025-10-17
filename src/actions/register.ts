@@ -43,7 +43,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
     if (userExists) {
       if (!userExists?.emailVerified) {
         const verificationToken = await generateVerificationToken(email);
-        sendEmailViaNodemailer({
+        await sendEmailViaNodemailer({
           template: generateVerificationEmail(
             `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
           ),
