@@ -1,4 +1,3 @@
-"use server";
 import { PaginationExample } from "@/components/feature/examples/paginationExample";
 import { metaDataGeneratorForNormalPage } from "@/lib/generate-meta";
 export const metadata = metaDataGeneratorForNormalPage(
