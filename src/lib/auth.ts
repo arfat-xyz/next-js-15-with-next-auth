@@ -66,7 +66,7 @@ export const {
         const verificationToken = await generateVerificationToken(
           existingUser.email,
         );
-        sendEmailViaNodemailer({
+        await sendEmailViaNodemailer({
           template: generateVerificationEmail(
             `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
           ),

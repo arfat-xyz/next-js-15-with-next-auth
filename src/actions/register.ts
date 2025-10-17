@@ -70,7 +70,7 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
 
     // Generate Verification Token
     const verificationToken = await generateVerificationToken(email);
-    sendEmailViaNodemailer({
+    await sendEmailViaNodemailer({
       template: generateVerificationEmail(
         `${env.NEXT_PUBLIC_BASE_URL}/verify-email?token=${verificationToken.token}`,
       ),
