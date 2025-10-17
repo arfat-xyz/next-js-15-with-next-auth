@@ -49,6 +49,8 @@ export const register = async (data: z.infer<typeof RegisterSchema>) => {
           ),
           subject: "Verify your email",
           to: email,
+        }).catch(e => {
+          console.error("Error sending email:", e);
         });
         return { success: "Email Verification was sent" };
       }
