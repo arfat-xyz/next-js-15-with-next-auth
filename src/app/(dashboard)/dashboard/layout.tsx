@@ -7,8 +7,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { metaDataGeneratorForNormalPage } from "@/lib/generate-meta";
 import { ReactNode } from "react";
-
+export const metadata = metaDataGeneratorForNormalPage(
+  "Dashboard layout - Arfat",
+  "Your Productivity Dashboard on Arfat.",
+);
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   return (
     <SidebarProvider>

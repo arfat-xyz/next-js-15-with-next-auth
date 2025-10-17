@@ -9,9 +9,11 @@ export interface ICardWrapperProps {
   children: React.ReactNode;
   headerLabel: string;
   backButtonLabel: string;
+  backButtonHref: string;
   title: string;
   showSocial?: boolean;
-  backButtonHref: string;
+  forgotPasswordHref?: string; // Add this line
+  forgotPasswordLabel?: string; // Add this line
 }
 
 export interface IBackButtonProps {

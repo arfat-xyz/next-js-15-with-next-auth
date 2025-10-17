@@ -1,3 +1,4 @@
+// @/components/auth/forgot-password-form.tsx
 "use client";
 
 import { useForm } from "react-hook-form";
@@ -9,55 +10,71 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import CardWrapper from "../card-wrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/zod-schemas/auth";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { FormSuccess } from "../form-success";
-import { FormError } from "../form-error";
-import GoogleLogin from "../google-login";
-import { login } from "@/actions/login";
+import { ForgotPasswordSchema } from "@/zod-schemas/auth/forget-password";
+import CardWrapper from "@/components/auth/card-wrapper";
+import { FormSuccess } from "@/components/auth/form-success";
+import { FormError } from "@/components/auth/form-error";
+import {
+  frontendErrorResponse,
+  frontendSuccessResponse,
+} from "@/lib/front-end-response";
+import { toast } from "sonner";
 
-const LoginForm = () => {
+export const ForgotPasswordForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  const form = useForm<z.infer<typeof LoginSchema>>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<z.infer<typeof ForgotPasswordSchema>>({
+    resolver: zodResolver(ForgotPasswordSchema),
     defaultValues: {
       email: "",
-      password: "",
     },
   });
 
-  const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ForgotPasswordSchema>) => {
     setLoading(true);
-    login(data).then(res => {
-      if (res.error) {
-        setError(res.error);
-        setLoading(false);
+    setError("");
+    setSuccess("");
+
+    try {
+      const response = await fetch("/api/forgot-password", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+      console.log(result);
+      if (result?.success) {
+        return frontendSuccessResponse(result?.message);
       }
-      if (res.success) {
-        setError("");
-        setSuccess(res.success);
-        setLoading(false);
+      return frontendErrorResponse({
+        message: result?.message,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+        toast.error(error.message);
       }
-    });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <CardWrapper
-      headerLabel="Create an account"
-      title="Login"
-      backButtonHref="/auth/register"
-      backButtonLabel="New here? Register"
-      showSocial
-      forgotPasswordHref="/auth/forget-password"
-      forgotPasswordLabel="Reset your password"
+      headerLabel="Forgot your password?"
+      title="Reset Password"
+      backButtonHref="/auth/login"
+      backButtonLabel="Back to login"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -79,31 +96,14 @@ const LoginForm = () => {
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} placeholder="******" type="password" />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
           </div>
           <FormSuccess message={success} />
           <FormError message={error} />
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Loading..." : "Login"}
+            {loading ? "Sending..." : "Send reset email"}
           </Button>
         </form>
       </Form>
-      <GoogleLogin />
     </CardWrapper>
   );
 };
-
-export default LoginForm;

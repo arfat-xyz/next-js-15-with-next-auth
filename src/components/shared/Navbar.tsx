@@ -145,7 +145,6 @@ export function HomeNavbar({
       </Link>
     );
   };
-
   return (
     <nav className="border-border bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-40 w-full border-b backdrop-blur">
       <div className="mx-auto w-4/5 px-4 sm:px-6 lg:px-8">

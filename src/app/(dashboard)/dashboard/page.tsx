@@ -7,7 +7,11 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card"; // Adjust path as needed
-
+import { metaDataGeneratorForNormalPage } from "@/lib/generate-meta";
+export const metadata = metaDataGeneratorForNormalPage(
+  "Dashboard - Arfat",
+  "Your Productivity Dashboard on Arfat.",
+);
 const page = async () => {
   const cardsData = Array(20)
     .fill("arfat")

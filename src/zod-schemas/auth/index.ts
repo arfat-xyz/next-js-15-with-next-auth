@@ -24,11 +24,11 @@ export const LoginSchema = z.object({
   }),
 });
 
-export const ResetPasswordSchema = z.object({
-  email: z.string().email({
-    message: "Please enter a valid email address",
-  }),
-});
+// export const ResetPasswordSchema = z.object({
+//   email: z.string().email({
+//     message: "Please enter a valid email address",
+//   }),
+// });
 
 export const NewPasswordSchema = z.object({
   password: z.string().min(6, {

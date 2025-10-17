@@ -5,7 +5,13 @@ import { NextResponse } from "next/server";
 const { auth } = NextAuth(authConfig);
 
 // const publicRoutes = ["/", "/auth/login", "/auth/register"];
-const authRoutes = ["/auth/login", "/auth/register"];
+const authRoutes = [
+  "/auth/login",
+  "/auth/register",
+  "/auth/reset-password",
+  "/auth/forget-password",
+  "/verify-email",
+];
 const privateRoutes = ["/dashboard"];
 
 export default auth(async req => {

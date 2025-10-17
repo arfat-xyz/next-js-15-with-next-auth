@@ -1,14 +1,17 @@
 import { HomeNavbar } from "@/components/shared/Navbar";
 import { auth } from "@/lib/auth";
+import { metaDataGeneratorForNormalPage } from "@/lib/generate-meta";
 import React, { ReactNode } from "react";
-
+export const metadata = metaDataGeneratorForNormalPage(
+  "Arfat - Empowering Your Productivity",
+  "Boost your productivity with Arfat, the ultimate tool for managing tasks and projects efficiently.",
+);
 export default async function HomeLayout({
   children,
 }: {
   children: ReactNode;
 }) {
   const session = await auth();
-  console.log(session);
   return (
     <>
       {" "}

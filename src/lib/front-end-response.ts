@@ -1,4 +1,5 @@
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+
 /**
  * frontendErrorResponse
  * Displays a toast notification for error messages on the frontend.

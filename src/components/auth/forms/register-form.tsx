@@ -58,6 +58,8 @@ const RegisterForm = () => {
       backButtonHref="/auth/login"
       backButtonLabel="Already have an account"
       showSocial
+      forgotPasswordHref="/auth/forget-password"
+      forgotPasswordLabel="Reset your password"
     >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">

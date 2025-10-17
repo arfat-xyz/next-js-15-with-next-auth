@@ -7,7 +7,7 @@ export const metaDataGeneratorForNormalPage = (
     description,
     image: `/logo.jpeg`,
     openGraph: {
-      images: [`l/ogo.jpeg`],
+      images: [`logo.jpeg`],
     },
   };
 };
