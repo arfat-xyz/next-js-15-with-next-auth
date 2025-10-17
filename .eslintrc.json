@@ -27,6 +27,14 @@
           "params": false
         }
       }
+    ],
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "after-used",
+        "vars": "all",
+        "ignoreRestSiblings": false
+      }
     ]
   },
   "overrides": [
