@@ -9,7 +9,7 @@ const transporter = nodeMailer.createTransport({
   },
 });
 
-export const sendEmailViaNodemailer = ({
+export const sendEmailViaNodemailer = async ({
   template,
   to,
   subject,
@@ -24,11 +24,15 @@ export const sendEmailViaNodemailer = ({
     subject: subject || "Email by arfat.app",
     html: template,
   };
-  transporter.sendMail(mailOption, function (error) {
-    if (error) {
-      console.log("Nodemailer Error", error);
-    } else {
-      console.log(`Message sent successfully.`);
-    }
+  await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        console.error(`Nodemailer Error: ${err}`);
+        reject(err);
+      } else {
+        console.log(`Message sent successfully.`);
+        resolve(info);
+      }
+    });
   });
 };
