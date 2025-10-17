@@ -11,6 +11,7 @@ import { env } from "@/lib/envs";
 import Credentials from "next-auth/providers/credentials";
 import { LoginSchema } from "@/zod-schemas/auth";
 import bcrypt from "bcryptjs";
+import { Role } from "@prisma/client";
 
 export const {
   auth,
@@ -77,9 +78,12 @@ export const {
 
       return true;
     },
-    async jwt({ token }) {
+    async jwt({ token, user }) {
+      // Add role when user first signs in (user object exists on initial signin)
+      if (user) {
+        token.role = user.role; // Type assertion for initial signin
+      }
       if (!token.sub) return token;
-
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
@@ -89,6 +93,7 @@ export const {
       token.name = existingUser.name;
       token.email = existingUser.email;
       token.image = existingUser.image;
+      token.role = existingUser.role;
 
       return token;
     },
@@ -99,6 +104,7 @@ export const {
           ...session.user,
           id: token.sub,
           isOauth: token.isOauth as boolean,
+          role: token.role as Role,
         },
       };
     },

@@ -5,7 +5,6 @@ import type React from "react";
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, X, ChevronDown, LogOut, Settings, User } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -159,7 +158,9 @@ export function HomeNavbar({
               className="flex items-center gap-2 text-lg font-bold"
             >
               {logo ? (
-                <img
+                <Image
+                  width={32}
+                  height={32}
                   src={logo || "/placeholder.svg"}
                   alt="Logo"
                   className="h-8 w-8"

@@ -1,5 +1,4 @@
 import { HomeNavbar } from "@/components/shared/Navbar";
-import { homeNav } from "@/constants";
 import { auth } from "@/lib/auth";
 import React, { ReactNode } from "react";
 
